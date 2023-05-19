@@ -9,7 +9,7 @@ userRouter.post('/register',validateEmail,(req,res)=>{
     try {
     const {fname,lname,email,password}=req.body;
     if (!fname || !lname || !email || !password) {
-        return res.status(400).send('Missing required fields');
+        return res.status(400).send("BadRequest");
       }
     bcrypt.hash(password,5,async function(error,hash) {
         if(error){

@@ -6,7 +6,7 @@ export const login = (credentials) => {
   return async (dispatch) => {
     try {
       const response = await axios.post('http://localhost:8080/user/login', credentials)
-    
+      console.log(response)
       dispatch({
         type: LOGIN,
         payload: response.data,

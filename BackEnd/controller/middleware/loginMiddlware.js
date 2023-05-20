@@ -5,7 +5,7 @@ const loginMiddleware=async(req,res,next)=>{
     const { email, password } = req.body;
 try {
     const user = await UserModel.findOne({email});
-
+    
     if (!user) {
       return res.status(401).send('Invalid email');
     }
@@ -20,6 +20,9 @@ try {
      if (result) {
         const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: '24h' });
         req.token=token;
+        req.fname=user.fname;
+        req.lname=user.lname;
+        req.email=user.email;
         next();
       } else {
         return res.status(401).send('Invalid password');

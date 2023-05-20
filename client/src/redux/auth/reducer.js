@@ -3,7 +3,6 @@ import { LOGIN,REGISTER,LOGOUT} from "./actionTypes";
   
   const initialState = {
     isLoggedIn: false,
-    isRegistered: false,
     user: null,
   };
   
@@ -19,14 +18,13 @@ import { LOGIN,REGISTER,LOGOUT} from "./actionTypes";
       case REGISTER:
         return {
           ...state,
-          isRegistered: true,
+          isLoggedIn: true,
           user: action.payload.user
         };
       case LOGOUT:
         return {
           ...state,
           isLoggedIn: false,
-          isRegistered: false,
           user: null,
         };
       default:

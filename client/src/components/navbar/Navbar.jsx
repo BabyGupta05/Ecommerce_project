@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState,useEffect} from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import SearchIcon from "@mui/icons-material/Search";
 import Register from "./Register";
@@ -11,7 +10,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -19,23 +17,24 @@ import { Search, SearchIconWrapper, StyledInputBase } from "./Search";
 import "./navbar.css";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-
+  const navigate=useNavigate()
   const user = useSelector((state) => {
-    return state.authReducer.isRegistered;
+    return state.authReducer.isLoggedIn;
   });
 
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
+  useEffect(()=>{
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  },[isLoggedIn])
   const handleClickOpen = () => {
     setOpen(true);
-    if (user) {
-      setIsRegistered(true);
-    }
+  
   };
 
   const handleClose = () => {
@@ -50,11 +49,6 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  const handleForm = () => {
-    if (user) {
-      setIsRegistered(true);
-    }
-  };
 
   return (
     <header className="header">
@@ -133,10 +127,10 @@ const Navbar = () => {
         }}
       >
         <DialogTitle id="responsive-dialog-title">
-          {isRegistered ? "LOGIN" : "REGISTER"}
+          {"LOGIN"}
         </DialogTitle>
         <DialogContent>
-          {isRegistered ?(<> <Login /> </>) :(<> <Register /></>)}
+         <Login handleClose={handleClose} />  
         </DialogContent>
       </Dialog> 
     </header>

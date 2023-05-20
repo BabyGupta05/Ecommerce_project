@@ -7,9 +7,9 @@ const {UserModel}=require('./../model/user.model')
 const {validateEmail}=require('./../controller/middleware/validateEmail');
 const { loginMiddleware }=require('./../controller/middleware/loginMiddlware')
 userRouter.post('/login', validateEmail,loginMiddleware,(req, res) => {
-  const { token } = req;
-  return res.status(200).send({ message: "login successful", token: token });
-  const { email, password } = req.body;
+  const { token,fname,lname,email } = req;
+  return res.status(200).send({ message: "login successful", token: token,fname:fname,lname:lname,email:email});
+ 
 
 });
 

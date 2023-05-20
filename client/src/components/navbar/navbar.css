@@ -1,0 +1,88 @@
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: black;
+  box-shadow:1px 2px 07px #474647;
+}
+.NavBar{
+    height: 4rem;
+    display: grid;
+    grid-template-columns: 20% 50% 30%;
+    gap: 0.8rem;
+}
+
+.NavLogo{
+    background-image: url('./../../assets/logo-removebg-preview.png');
+    background-size: cover;
+    width: 80%;
+    height: 3rem;
+    margin: 0.4rem 1.5rem;
+}
+
+.NavButtons{
+    display: flex;
+    justify-content: space-around;
+}
+.nav__icon{
+    font-size: 1.5rem;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.form>input{
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    outline-color: blue;
+}
+input[type="submit"] {
+    background-color : blue;
+    color: white;
+
+  }
+  input[type="submit"]:hover{
+    cursor: pointer;
+  }
+/*=============== BREAKPOINTS ===============*/
+/* For large devices */
+  @media screen and (max-width: 992px) {
+
+    
+  }
+  
+  /* For medium devices */
+  @media screen and (max-width: 768px) {
+    
+    .NavLogo{
+        background-image: url('./../../assets/smalllogo-removebg.png');
+        background-size: cover;
+        width: 40%;
+        height: 2.8rem;
+        margin: 0.4rem 0.5rem;
+       
+    }
+    
+  }
+  
+  @media screen and (max-width: 576px) {
+    .NavBar{
+        grid-template-columns: 20% 50% 20%;
+        gap: 0.2rem;
+    }
+    .NavLogo{
+        width: 80%;
+        height: 3rem;
+        margin: 0.2rem 1.5rem;
+    }
+  
+  }
+  
+  /* For small devices */
+  @media screen and (max-width: 350px) {
+  
+  }
+  

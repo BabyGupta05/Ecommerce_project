@@ -58,7 +58,8 @@ const Navbar = () => {
 
   return (
     <header className="header">
-      <nav className="NavBar">
+    
+       <nav className="NavBar">
         <div>
           <div alt="logo" className="NavLogo" />
         </div>
@@ -137,7 +138,7 @@ const Navbar = () => {
         <DialogContent>
           {isRegistered ?(<> <Login /> </>) :(<> <Register /></>)}
         </DialogContent>
-      </Dialog>
+      </Dialog> 
     </header>
   );
 };

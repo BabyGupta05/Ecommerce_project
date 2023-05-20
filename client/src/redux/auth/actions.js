@@ -12,7 +12,6 @@ export const login = (credentials) => {
         payload: response.data,
       });
     } catch (error) {
-      
       console.error('Login failed:', error);
     }
   };

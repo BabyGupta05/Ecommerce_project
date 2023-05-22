@@ -25,7 +25,7 @@ userRouter.post('/login', validateEmail,async(req, res) => {
 
       if (result) {
         
-        const token = jwt.sign({ email: user._id }, process.env.SECRET_KEY, { expiresIn: '10s' });
+        const token = jwt.sign({ email: user._id }, process.env.SECRET_KEY, { expiresIn: '24h' });
         return res.status(200).send({message:"login successful", token: token, fname:user.fname,lname:user.lname,email:user.email});
       } else {
         return res.status(401).send({error:'Invalid password'});
@@ -65,7 +65,7 @@ userRouter.post('/register',validateEmail,async(req,res)=>{
   
         if (result) {
           
-          const token = jwt.sign({ email: user._id }, process.env.SECRET_KEY, { expiresIn: '10s' });
+          const token = jwt.sign({ email: user._id }, process.env.SECRET_KEY, { expiresIn: '24h' });
           return res.status(200).send({message:"login successful", token: token, fname:user.fname,lname:user.lname,email:user.email});
         } else {
           return res.status(401).send({error:'Invalid password'});

@@ -27,6 +27,7 @@ const Navbar = () => {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(user.isLoggedIn || false);
+  const [LogoutOpen, setLogoutOpen] = useState(false);
   const [mopen, setmOpen] = React.useState(false);
   const [erropen, setErrOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ const Navbar = () => {
       setUsername(user.user.fname);
       setIsLoggedIn(true);
       setmOpen(true);
-      setUserToken(user.token);
+      setUserToken(user.user.token);
       console.log("Navbar.js: user logged in", user);
     } else {
       setUsername("");
@@ -88,9 +89,22 @@ const Navbar = () => {
     setErrOpen(false);
     setmOpen(false);
   };
+  const handleLogoutClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+   setLogoutOpen(false);
+  };
+  const hadleLogout=()=>{
+    setIsLoggedIn(false);
+    setUsername("");
+    setLogoutOpen(true);
+  }
   const handleLoginError = (error) => {
     setErrorMessage(error);
     setErrOpen(true);
+    setUserToken("");
+
   };
   localStorage.setItem('token',userToken);
   localStorage.setItem('tokenExpiration', new Date().getTime() + 24 * 60 * 60 * 1000);
@@ -99,6 +113,8 @@ const Navbar = () => {
     if (tokenExpiration && new Date().getTime() > tokenExpiration) {
       setIsLoggedIn(false);
       setUsername("");
+      setUserToken("");
+
       localStorage.removeItem('token');
       localStorage.removeItem('tokenExpiration');
       
@@ -138,7 +154,7 @@ const Navbar = () => {
                     <i class="bx bx-user nav__icon"></i>
                   </MenuItem>
                 ) : (
-                  <MenuItem>
+                  <MenuItem onClick={hadleLogout}>
                     <Avatar sx={{ width: 24, height: 24, bgcolor: blue[500] }}>
                       {username.charAt(0).toUpperCase()}
                     </Avatar>
@@ -159,7 +175,7 @@ const Navbar = () => {
                   <i className="bx bx-user nav__icon"></i>
                 </Button>
               ) : (
-                <Button>{username}</Button>
+                <Button onClick={hadleLogout}>{username}</Button>
               )}
               <Button>
                 <i class="bx bx-cart nav__icon"></i>
@@ -251,6 +267,19 @@ const Navbar = () => {
           sx={{ width: "100%" }}
         >
           {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={LogoutOpen}
+        autoHideDuration={1000}
+        onClose={handleLogoutClose}
+      >
+        <Alert
+          onClose={handleLogoutClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {"Logout Successful!"}
         </Alert>
       </Snackbar>
     </header>

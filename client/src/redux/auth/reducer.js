@@ -1,9 +1,10 @@
-import { LOGIN,REGISTER,LOGOUT} from "./actionTypes";
+import { LOGIN,REGISTER,LOGOUT,LOGIN_FAIL} from "./actionTypes";
 
   
   const initialState = {
     isLoggedIn: false,
     user: null,
+    error: null
   };
   
 
@@ -13,13 +14,21 @@ import { LOGIN,REGISTER,LOGOUT} from "./actionTypes";
         return {
           ...state,
           isLoggedIn: true,
-          user: action.payload.user, 
+          user: action.payload, 
+          error: null
+        };
+      case LOGIN_FAIL:
+        return {
+          ...state,
+          isLoggedIn: false,
+          user: null, 
+          error: action.error
         };
       case REGISTER:
         return {
           ...state,
           isLoggedIn: true,
-          user: action.payload.user
+          user: action.payload
         };
       case LOGOUT:
         return {

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import SearchIcon from "@mui/icons-material/Search";
-import Register from "./Register";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,27 +11,44 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 
 import { Search, SearchIconWrapper, StyledInputBase } from "./Search";
 import "./navbar.css";
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const Navbar = () => {
-  const navigate=useNavigate()
+ 
   const user = useSelector((state) => {
-    return state.authReducer.isLoggedIn;
+    return state.authReducer;
   });
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(user.isLoggedIn||false);
+  const [mopen, setmOpen] = React.useState(false);
+  const [erropen, setErrOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(user.error||null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   useEffect(()=>{
-    if (user) {
+    if (user.error && !user.isLoggedIn) {
+      console.log(user.error)
+      setErrOpen(true);
+    } else if (user.isLoggedIn) {
       setIsLoggedIn(true);
+      setmOpen(true);
+      console.log("Navbar.js: user logged in", user);
     }
-  },[isLoggedIn])
+  },[user])
+  
   const handleClickOpen = () => {
+    if(isLoggedIn){
+      setOpen(false);
+    }
     setOpen(true);
   
   };
@@ -48,7 +64,17 @@ const Navbar = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrOpen(false)
+    setmOpen(false);
+  };
+  const handleLoginError = (error) => {
+    setErrorMessage(error);
+    setErrOpen(true);
+  };
 
   return (
     <header className="header">
@@ -93,7 +119,7 @@ const Navbar = () => {
           ) : (
             <>
               <Button onClick={handleClickOpen}>
-                <i class="bx bx-user nav__icon"></i>
+              <i class="bx bx-user nav__icon"></i>
               </Button>
               <Button>
                 <i class="bx bx-cart nav__icon"></i>
@@ -127,12 +153,24 @@ const Navbar = () => {
         }}
       >
         <DialogTitle id="responsive-dialog-title">
-          {"LOGIN"}
+        
         </DialogTitle>
         <DialogContent>
-         <Login handleClose={handleClose} />  
+         <Login handleClose={handleClose} setmOpen={setmOpen} setErrOpen={setErrOpen} isLoggedIn={isLoggedIn}  handleLoginError={handleLoginError}/>  
         </DialogContent>
+
       </Dialog> 
+      <Snackbar open={mopen} autoHideDuration={1000} onClose={handleAlertClose}>
+        <Alert onClose={handleAlertClose} severity="success" sx={{ width: '100%' }}>
+       {`login succesful!`}
+        </Alert>
+      </Snackbar>
+      <Snackbar open={erropen} autoHideDuration={1000} onClose={handleAlertClose}>
+        <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
+        {errorMessage} {`login failed!`}
+       
+        </Alert>
+      </Snackbar>
     </header>
   );
 };

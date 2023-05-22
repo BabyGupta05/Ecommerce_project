@@ -7,7 +7,7 @@ try {
     const user = await UserModel.findOne({email});
     
     if (!user) {
-      return res.status(401).send('Invalid email');
+      return res.status(401).send({ message: "user have not registered"});
     }
 
     const hash = user.password;

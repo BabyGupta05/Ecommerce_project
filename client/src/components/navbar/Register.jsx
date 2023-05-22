@@ -2,11 +2,9 @@ import { useState } from "react";
 import React from "react";
 import { register } from "../../redux/auth/actions";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import './navbar.css'
-const Register = () => {
+const Register = ({handleRegisterClose}) => {
   const dispach = useDispatch();
-  const navigate=useNavigate();
   const [registerData, setRegisterData] = useState({
     fname: "",
     lname: "",
@@ -18,14 +16,14 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      dispach(register(registerData));
+      await dispach(register(registerData));
       setRegisterData({
         fname: "",
         lname: "",
         email: "",
         password: "",
       });
-     
+      handleRegisterClose();
     } catch (error) {
       console.log(error);
     }

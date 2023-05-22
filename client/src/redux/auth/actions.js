@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOGIN, LOGOUT, REGISTER,LOGIN_FAIL} from './actionTypes';
+import { LOGIN, LOGOUT, REGISTER,LOGIN_FAIL,REGISTER_FAIL} from './actionTypes';
 
 // Action creators
 export const login = (credentials) => {
@@ -38,9 +38,14 @@ export const register = (userData) => {
         type: REGISTER,
         payload: response.data,
       });
-    } catch (error) {
       
+    } catch (error) {
       console.error('Registration failed:', error);
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: null,
+        error:'Login failed. Please try again.'
+      });
     }
   };
 };
